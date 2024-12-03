@@ -14,7 +14,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # 1.0 LOAD DATA ---- 
 
 # Load the business data
-business_data = pd.read_csv("001_csv_search/data/business_data.csv")
+business_data = pd.read_csv("001_csv_semantic_search/data/business_data.csv")
 
 business_data
 
