@@ -1,1 +1,3 @@
-# This is a work in progress.
+# Free AI Tips GitHub Repository
+
+Your source for amazing AI-Tips. 👉
