@@ -56,9 +56,9 @@ print(results[['business_name', 'description', 'category']])
 
 
 # 4.0 NEXT STEPS ----
-# - Try different queries
+# - Try different natural language queries
 # - Use a different pre-trained sentence transformer model
-# - Use a different dataset
+# - Use a different business dataset from your own data source
 
 # 5.0 WANT TO LEARN HOW TO USE AI FOR DATA SCIENCE? ----
 # - Join My Live 8-Week AI For Data Scientists Bootcamp
