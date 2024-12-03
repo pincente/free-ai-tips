@@ -58,11 +58,11 @@ print(results[['business_name', 'description', 'category']])
 # - Join My Live 8-Week AI For Data Scientists Bootcamp
 # - Live Cohorts are happening once per quarter. Schedule:
 #       -   Week 1: Live Kickoff Clinic + Local LLM Training + AI Fast Track
-#       -   Week 2: Retrieval Augmented Generation (RAG)
+#       -   Week 2: Retrieval Augmented Generation (RAG) For Data Scientists
 #       -   Week 3: Business Intelligence AI Copilot (SQL + Pandas Tools)
 #       -   Week 4: Customer Analytics Agent Team (Multi-Agent Workflows)
 #       -   Week 5: Time Series Forecasting Agent Team (Multi-Agent Machine Learning Workflows)
-#       -   Week 6: LLM Model Deployment WithAWS Bedrock
+#       -   Week 6: LLM Model Deployment With AWS Bedrock
 #       -   Week 7: Fine-Tuning LLM Models & RAG Deployments With AWS Bedrock
 #       -   Week 8: AI App Deployment With AWS Cloud (Docker, EC2, NGINX)
 # 
