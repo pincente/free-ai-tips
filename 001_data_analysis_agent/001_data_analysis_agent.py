@@ -77,7 +77,7 @@ response_df = parse_json_to_dataframe(response['output'])
 import plotly.express as px
 
 fig = px.bar(response_df, x='Geography', y='Sales', title='Sales by Geography')
-fig.show()
+fig
 
 
 # 5.0 WANT TO LEARN HOW TO USE GENERATIVE AI AND LLMS FOR DATA SCIENCE? ----
