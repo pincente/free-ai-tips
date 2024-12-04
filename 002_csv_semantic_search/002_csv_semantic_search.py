@@ -1,5 +1,5 @@
-# BUSINESS SCIENCE GENERATIVE AI TIPS ----
-# AI-TIP 001 | CSV SEMANTIC SEARCH ----
+# BUSINESS SCIENCE GENERATIVE AI/ML TIPS ----
+# AI-TIP 002 | CSV SEMANTIC SEARCH ----
 
 # GOALS: 
 # - Perform semantic search on a CSV file of businesses using a pre-trained sentence transformer model
