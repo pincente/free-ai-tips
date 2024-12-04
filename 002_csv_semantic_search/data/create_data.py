@@ -47,7 +47,7 @@ data = {
 business_data = pd.DataFrame(data)
 
 # Save to a CSV file for user
-file_path = "001_csv_search/data/business_data.csv"
+file_path = "002_csv_semantic_search/data/business_data.csv"
 business_data.to_csv(file_path, index=False)
 
 file_path
