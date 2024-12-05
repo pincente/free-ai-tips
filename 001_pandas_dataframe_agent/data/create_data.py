@@ -45,4 +45,4 @@ data = {
 df = pd.DataFrame(data)
 
 # Save to CSV
-df.to_csv('001_data_analysis_agent/data/customer_data.csv', index=False)
+df.to_csv('001_pandas_dataframe_agent/data/customer_data.csv', index=False)

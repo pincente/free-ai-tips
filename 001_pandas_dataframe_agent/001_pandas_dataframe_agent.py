@@ -3,7 +3,7 @@
 
 # GOALS: 
 # - Create a data analysis agent that can answer questions about a dataset
-# - Use OpenAI's API to 
+# - Use OpenAI's API to interact with the data
 
 # Libraries:
 from langchain_openai import ChatOpenAI
@@ -18,7 +18,7 @@ from pprint import pprint
 import pandas as pd
 
 # Add the directory to the system path if not already present
-current_dir = Path.cwd() / '001_data_analysis_agent'
+current_dir = Path.cwd() / '001_pandas_dataframe_agent'
 if str(current_dir) not in sys.path:
     sys.path.append(str(current_dir))
     
@@ -42,7 +42,7 @@ os.environ['OPENAI_API_KEY'] = yaml.safe_load(open('../credentials.yml'))['opena
 #  - Parse the JSON
 
 # Load your dataset
-df = pd.read_csv('001_data_analysis_agent/data/customer_data.csv')
+df = pd.read_csv('001_pandas_dataframe_agent/data/customer_data.csv')
 df
 
 # Initialize the LLM
