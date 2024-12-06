@@ -1,23 +1,32 @@
 
 
+
+# Libraries
+
 from openai import OpenAI
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, roc_auc_score
 from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
+import xgboost as xgb
 
 import pandas as pd
 import numpy as np
 import yaml
 import os
 import ast
+import matplotlib.pyplot as plt
 
 
 
 # ---------------------------
 # 1. Setup
 # ---------------------------
+
+# MODELS
+LLM_MODEL = "gpt-4o-mini"
+EMBEDDING_MODEL = "text-embedding-ada-002"
 
 # OPENAI SETUP
 os.environ['OPENAI_API_KEY'] = "YOUR_OPENAI_API_KEY"
@@ -63,7 +72,7 @@ df
 def get_embeddings(text):
     response = client.embeddings.create(
         input=[text],
-        model="text-embedding-ada-002"
+        model=EMBEDDING_MODEL
     )
     # Access data as attributes instead of dict indexing:
     embedding = response.data[0].embedding
@@ -85,21 +94,23 @@ df['plan_type_encoded'] = LabelEncoder().fit_transform(df['plan_type'])
 # If embeddings are stored in a pandas Series
 df['summary_embedding'] = df['summary_embedding'].apply(ast.literal_eval)
 
-X_base = df[['age','tenure','spend_rate','plan_type_encoded']].values
-embeddings_matrix = np.vstack(df['summary_embedding'].values)
+embeddings_df = pd.DataFrame(df['summary_embedding'].tolist(), index=df.index)
 
-X_base = X_base.astype(np.float32)
-embeddings_matrix = embeddings_matrix.astype(np.float32)
+# Combine your original numeric features with the embedding columns
+X_df = pd.concat([df[['age','tenure','spend_rate','plan_type_encoded']], embeddings_df], axis=1)
 
-X = np.hstack([X_base, embeddings_matrix]).astype(np.float32)
+# Ensure all columns are numeric
+X_df = X_df.astype('float32')
+
 y = df['churn'].values
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=42)
+# You can now split into train and test sets while keeping X as a DataFrame
+X_train, X_test, y_train, y_test = train_test_split(X_df, y, stratify=y, random_state=42)
+
 
 # ---------------------------
 # 5. Train an XGBoost Model
 # ---------------------------
-# We’ll start with a basic XGBClassifier. You can tune these parameters for better performance.
 model = XGBClassifier(
     n_estimators=100,
     max_depth=6,
@@ -117,29 +128,34 @@ print("Classification Report:")
 print(classification_report(y_test, y_pred))
 print("AUC:", roc_auc_score(y_test, y_pred_proba))
 
-
-X_test
-
+# X_test is now still a DataFrame
+print("X_test (DataFrame) head:")
+print(X_test.head())
 
 # ---------------------------
-# 6. Optional - Use LLM to Generate Insights
+# 6. Interpret the ML Model
 # ---------------------------
-report_prompt = f"""
-We analyzed customer churn using numeric features (age, tenure, spend_rate, plan_type) and LLM-based embeddings of ticket summaries.
-We used an XGBoost model and got an AUC of {roc_auc_score(y_test, y_pred_proba):.2f}.
 
-Summarize what this might mean for the business and how to leverage these insights.
-"""
+# Convert model to xgboost Booster
+booster = model.get_booster()
 
-response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": report_prompt}
-        ],
-        temperature=0.0
-    )
-print("\nLLM Summary of Insights:")
+# Plot feature importance
+xgb.plot_importance(booster)
+plt.show()
 
-response.choices[0].message.content.strip()
-print(response.choices[0].text.strip())
+# If you want a numeric array of feature importances:
+importance = model.feature_importances_
+feature_names = X_train.columns
+importance_df = pd.DataFrame({'feature': feature_names, 'importance': importance})
+importance_df.sort_values('importance', ascending=False, inplace=True)
+print(importance_df)
+
+X_df[422]
+
+df_top_feat_importance = df.copy()
+
+df_top_feat_importance[422] = X_df[422]
+
+df_top_feat_importance.sort_values(by=422, ascending=False).head(10)
+
+
