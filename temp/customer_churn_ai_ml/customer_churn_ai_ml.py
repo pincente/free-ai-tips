@@ -11,6 +11,7 @@ import pandas as pd
 import numpy as np
 import yaml
 import os
+import ast
 
 
 
@@ -81,8 +82,6 @@ df
 # ---------------------------
 df['plan_type_encoded'] = LabelEncoder().fit_transform(df['plan_type'])
 
-import ast
-
 # If embeddings are stored in a pandas Series
 df['summary_embedding'] = df['summary_embedding'].apply(ast.literal_eval)
 
@@ -118,6 +117,10 @@ print("Classification Report:")
 print(classification_report(y_test, y_pred))
 print("AUC:", roc_auc_score(y_test, y_pred_proba))
 
+
+X_test
+
+
 # ---------------------------
 # 6. Optional - Use LLM to Generate Insights
 # ---------------------------
@@ -128,11 +131,15 @@ We used an XGBoost model and got an AUC of {roc_auc_score(y_test, y_pred_proba):
 Summarize what this might mean for the business and how to leverage these insights.
 """
 
-response = openai.Completion.create(
-    engine="text-davinci-003",
-    prompt=report_prompt,
-    max_tokens=200,
-    temperature=0.0
-)
+response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": report_prompt}
+        ],
+        temperature=0.0
+    )
 print("\nLLM Summary of Insights:")
+
+response.choices[0].message.content.strip()
 print(response.choices[0].text.strip())
