@@ -58,7 +58,7 @@ def summarize_ticket(ticket_text):
 
 df['ticket_summary'] = df['ticket_notes'].apply(summarize_ticket)
 
-df.to_csv("temp/customer_churn_ai_ml/data/customer_churn_summary.csv", index=False)
+# df.to_csv("temp/customer_churn_ai_ml/data/customer_churn_summary.csv", index=False)
 
 df = pd.read_csv("temp/customer_churn_ai_ml/data/customer_churn_summary.csv")
 df
@@ -80,7 +80,7 @@ def get_embeddings(text):
 
 df['summary_embedding'] = df['ticket_summary'].apply(get_embeddings)
 
-df.to_csv("temp/customer_churn_ai_ml/data/customer_churn_summary_embeddings.csv", index=False)
+# df.to_csv("temp/customer_churn_ai_ml/data/customer_churn_summary_embeddings.csv", index=False)
 
 df = pd.read_csv("temp/customer_churn_ai_ml/data/customer_churn_summary_embeddings.csv")
 
