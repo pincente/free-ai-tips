@@ -1,5 +1,10 @@
+# BUSINESS SCIENCE GENERATIVE AI/ML TIPS ----
+# AI-TIP 002 | AI/ML FOR CUSTOMER CHURN ----
 
-
+# GOALS: 
+# - Use LLMs to generate summaries of customer tickets
+# - Use Text Embeddings to convert text to vectors
+# - Use XGBoost to predict customer churn with AI features
 
 # Libraries
 
@@ -18,11 +23,12 @@ import os
 import ast
 import matplotlib.pyplot as plt
 
-
-
 # ---------------------------
 # 1. Setup
 # ---------------------------
+
+# PATHS
+PATH_ROOT = "002_customer_churn_ai_ml/"
 
 # MODELS
 LLM_MODEL = "gpt-4o-mini"
@@ -35,7 +41,7 @@ os.environ['OPENAI_API_KEY'] = yaml.safe_load(open('../credentials.yml'))['opena
 client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
 # DATASET 
-df = pd.read_csv("temp/customer_churn_ai_ml/data/customer_churn.csv")
+df = pd.read_csv(PATH_ROOT + "/data/customer_churn.csv")
 
 # ---------------------------
 # 2. Generate Summaries with an LLM
@@ -46,7 +52,7 @@ df = pd.read_csv("temp/customer_churn_ai_ml/data/customer_churn.csv")
 def summarize_ticket(ticket_text):
     prompt = f"Summarize the following customer ticket focusing on the main complaint or request:\n\n{ticket_text}\n\nSummary:"
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=LLM_MODEL,
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
@@ -58,9 +64,9 @@ def summarize_ticket(ticket_text):
 
 df['ticket_summary'] = df['ticket_notes'].apply(summarize_ticket)
 
-# df.to_csv("temp/customer_churn_ai_ml/data/customer_churn_summary.csv", index=False)
+# df.to_csv(PATH_ROOT + "/data/customer_churn_summary.csv", index=False)
 
-df = pd.read_csv("temp/customer_churn_ai_ml/data/customer_churn_summary.csv")
+df = pd.read_csv( PATH_ROOT + "/data/customer_churn_summary.csv")
 df
 
 # ---------------------------
@@ -80,9 +86,9 @@ def get_embeddings(text):
 
 df['summary_embedding'] = df['ticket_summary'].apply(get_embeddings)
 
-# df.to_csv("temp/customer_churn_ai_ml/data/customer_churn_summary_embeddings.csv", index=False)
+# df.to_csv(PATH_ROOT + "/data/customer_churn_summary_embeddings.csv", index=False)
 
-df = pd.read_csv("temp/customer_churn_ai_ml/data/customer_churn_summary_embeddings.csv")
+df = pd.read_csv(PATH_ROOT + "/data/customer_churn_summary_embeddings.csv")
 
 df
 
