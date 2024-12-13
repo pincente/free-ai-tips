@@ -2,6 +2,7 @@
 # AI-TIP 002 | AI/ML FOR CUSTOMER CHURN ----
 
 # GOALS: 
+# - Use Generative AI to improve feature engineering of Customer Churn Models 
 # - Use LLMs to generate summaries of customer tickets
 # - Use Text Embeddings to convert text to vectors
 # - Use XGBoost to predict customer churn with AI features
