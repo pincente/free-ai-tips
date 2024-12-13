@@ -17,12 +17,17 @@ import yaml
 from pprint import pprint
 import pandas as pd
 
+
+# SETUP PATHS
+
+PATH_ROOT = '001_pandas_dataframe_agent'
+
 # Add the directory to the system path if not already present
-current_dir = Path.cwd() / '001_pandas_dataframe_agent'
+current_dir = Path.cwd() / PATH_ROOT
 if str(current_dir) not in sys.path:
     sys.path.append(str(current_dir))
     
-# Now I can import from the utils.parsers module
+# Import from utils.parsers module
 from utils.parsers import parse_json_to_dataframe
 
 # 1.0 SET UP OPENAI API ----
@@ -42,7 +47,7 @@ os.environ['OPENAI_API_KEY'] = yaml.safe_load(open('../credentials.yml'))['opena
 #  - Parse the JSON
 
 # Load your dataset
-df = pd.read_csv('001_pandas_dataframe_agent/data/customer_data.csv')
+df = pd.read_csv(PATH_ROOT + '/data/customer_data.csv')
 df
 
 # Initialize the LLM
