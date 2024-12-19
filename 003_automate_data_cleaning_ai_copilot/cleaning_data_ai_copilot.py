@@ -96,7 +96,9 @@ if str(current_dir) not in sys.path:
 
 from ai_functions.data_cleaner import data_cleaner
 
-data_cleaner(df)
+df.info()
+
+data_cleaner(df).info()
 
 # 4.0 NEXT STEPS
 
