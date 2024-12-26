@@ -60,7 +60,7 @@ feature_engineering_agent = make_feature_engineering_agent(
 
 feature_engineering_agent
 
-# Clean the data
+# Run feature engineer agent on the data
 
 response = feature_engineering_agent.invoke({
     "target_variable": "Churn",
