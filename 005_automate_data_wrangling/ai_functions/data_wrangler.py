@@ -8,47 +8,60 @@ def data_wrangler(data_list):
     '''
 
 
-    # Ensure data_list is a list; if not, convert it to a list
+    # Ensure data_list is a list
     if not isinstance(data_list, list):
-        data_list = [data_list]
+        data_list = [data_list]  # Convert to list if not already
 
-    # Step 1: Load the datasets (already done as dataframes are passed in)
-    # Step 2: Concatenate the DataFrames into a single DataFrame
-    data_combined = pd.concat(data_list, ignore_index=True)
+    # Step 1: Load the Datasets
+    # Already done as data_list is assumed to contain the DataFrames
 
-    # Step 3: Check for duplicates and remove them if any
-    data_combined = data_combined.drop_duplicates()
+    # Step 2: Standardize Column Names
+    for df in data_list:
+        # Standardize 'drv' column to be of type object (convert int to str for consistency)
+        if 'drv' in df.columns and df['drv'].dtype == 'int64':
+            df['drv'] = df['drv'].astype(str)
 
-    # Step 4: Standardize column data types
-    # Convert 'drv' to object type for consistency in categorical data representation
-    data_combined['drv'] = data_combined['drv'].astype(str)
+    # Step 3: Concatenate DataFrames
+    combined_df = pd.concat(data_list, ignore_index=True)
 
-    # Step 5: Handle inconsistent values in categorical columns
-    # Standardizing transmission types by removing extra characters
-    data_combined['trans'] = data_combined['trans'].str.replace(r'\(.*\)', '', regex=True).str.strip()
+    # Step 4: Inspect the Combined DataFrame
+    print(f"Combined DataFrame shape: {combined_df.shape}")
+    print(combined_df.dtypes)
 
-    # Step 6: Assess missing values (although none are noted, it's good practice)
-    missing_values = data_combined.isnull().sum()
-    
-    # Step 7: Explore unique values in categorical columns
-    unique_values_summary = {
-        'trans': data_combined['trans'].unique(),
-        'drv': data_combined['drv'].unique(),
-        'class': data_combined['class'].unique()
-    }
+    # Step 5: Check for Duplicates
+    duplicates = combined_df.duplicated().sum()
+    if duplicates > 0:
+        print(f"Number of duplicate rows found: {duplicates}")
+        combined_df = combined_df.drop_duplicates()  # Remove duplicates
 
-    # Step 8: Create derived columns if needed
-    # Example: Calculate combined city and highway mileage as an average
-    data_combined['avg_mpg'] = (data_combined['cty'] + data_combined['hwy']) / 2
+    # Step 6: Handle Inconsistent Data Types
+    # Convert categorical variables to 'category' dtype for efficiency
+    categorical_columns = ['manufacturer', 'model', 'trans', 'drv', 'fl', 'class']
+    for col in categorical_columns:
+        if col in combined_df.columns:
+            combined_df[col] = combined_df[col].astype('category')
 
-    # Step 9: Final data summary
-    # Print a description of numerical columns and value counts for categorical columns
-    numerical_summary = data_combined.describe()
-    categorical_summary = {
-        'class_counts': data_combined['class'].value_counts(),
-        'trans_counts': data_combined['trans'].value_counts(),
-        'drv_counts': data_combined['drv'].value_counts()
-    }
+    # Step 7: Identify and Address Missing Values
+    missing_values = combined_df.isnull().sum()
+    if missing_values.any():
+        print("Missing values found:")
+        print(missing_values[missing_values > 0])  # Print only columns with missing values
+        # Implement a strategy for missing values if any are found (e.g., imputation, removal)
 
-    # Return the wrangled DataFrame
-    return data_combined
+    # Step 8: Explore Unique Values
+    for col in categorical_columns:
+        if col in combined_df.columns:
+            unique_values = combined_df[col].unique()
+            print(f"Unique values in {col}: {unique_values}")
+
+    # Step 9: Summarize Key Metrics
+    numeric_columns = combined_df.select_dtypes(include=[np.number]).columns.tolist()
+    summary_stats = combined_df[numeric_columns].describe()
+    print("Summary statistics for numeric columns:")
+    print(summary_stats)
+
+    # Step 10: Prepare Data for Analysis
+    # Additional transformations can be added here as needed for specific analysis goals
+
+    # Return a single DataFrame 
+    return combined_df
