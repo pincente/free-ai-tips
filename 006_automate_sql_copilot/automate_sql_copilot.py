@@ -1,24 +1,22 @@
 # BUSINESS SCIENCE GENERATIVE AI/ML TIPS ----
 # AI-TIP 006 | How To Automate SQL With AI ----
 
-# PROBLEM: SQL is a time-consuming process that keeps us from analyzing data, making ML models, and getting business insights.
+# WHAT WE COVER TODAY: 
+# 1. Expose you to my new AI Data Science Team of Copilots
+# 2. Create an AI Copilot to automate SQL Database Queries
+# 3. Run the SQL Agent on the Northwind Database (Sample ERP) and ask it questions
 
-# GOALS: 
-# - Expose you to my new AI Data Science Team of Copilots
-# - Create an AI Copilot to automate SQL Database Queries
-# - Run the SQL Agent on the Northwind Database (Sample ERP) and ask it questions
+# PROBLEM: SQL is a time-consuming process that keeps us from analyzing data, making ML models, and getting business insights.
 
 # * Project Github: https://github.com/business-science/ai-data-science-team
 
 
-# Libraries
+# LIBRARIES
 # * pip install git+https://github.com/business-science/ai-data-science-team.git --upgrade
 
 from langchain_openai import ChatOpenAI
-
 import pandas as pd
 import sqlalchemy as sql
-
 import os
 import yaml
 from pprint import pprint
@@ -55,7 +53,6 @@ LOG_PATH = os.path.join(os.getcwd(), PATH_ROOT, "ai_functions/")
 
 llm = ChatOpenAI(model = MODEL)
 
-
 sql_agent = make_sql_database_agent(
     model = llm, 
     connection=conn, 
@@ -81,6 +78,8 @@ response = sql_agent.invoke({
 response.keys()
 
 pd.DataFrame(response['data_sql'])
+
+response['sql_query_code']
 
 
 # What are the sales for each product?
