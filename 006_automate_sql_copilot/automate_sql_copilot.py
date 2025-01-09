@@ -28,7 +28,7 @@ PATH_ROOT = "006_automate_sql_copilot/"
 
 # Create Connection
 
-engine = sql.create_engine(f'sqlite:///{PATH_ROOT}data/northwind.db')
+engine = sql.create_engine(f'sqlite:///data/northwind.db')
 
 conn = engine.connect()
 
