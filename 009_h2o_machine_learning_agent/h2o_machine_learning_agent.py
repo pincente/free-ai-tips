@@ -3,10 +3,8 @@
 
 # WHAT WE COVER TODAY: 
 # 1. Expose you to my new AI Data Science Team of Copilots
-# 2. Create an AI Copilot to automate SQL Data Analysis
-# 3. Run the SQL Data Analyst Agent on the Northwind Database (Sample ERP) and ask it questions
-
-# PROBLEM: Writing SQL code to making Data Visualizations are a time-consuming process that keeps us from making ML models and getting business insights.
+# 2. Introduce an AI ML Agent for automating 32+ Machine Learning Models in 30 seconds
+# 3. Execute the H2O ML SQL Data Analyst Agent on the Customer Churn Dataset
 
 # * Project Github: https://github.com/business-science/ai-data-science-team
 
