@@ -14,7 +14,7 @@
 # streamlit run 010_sql_database_agent_app/app.py
 
 # Imports
-# !pip install git+https://github.com/business-science/ai-data-science-team.git --upgrade
+# pip install git+https://github.com/business-science/ai-data-science-team.git --upgrade
 
 from openai import OpenAI
 
