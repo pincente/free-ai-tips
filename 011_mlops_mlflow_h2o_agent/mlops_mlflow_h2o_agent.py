@@ -44,12 +44,15 @@ ml_agent = H2OMLAgent(
 )
 ml_agent
 
+
 # RUN THE AGENT
 ml_agent.invoke_agent(
     data_raw=df.drop(columns=["customerID"]),
     user_instructions="Please do classification on 'Churn'. Use a max runtime of 30 seconds. Use mlflow to log the experiment.",
     target_variable="Churn"
 )
+
+ml_agent.get_leaderboard()
 
 # 2.0 CREATE MLFLOW AGENT
 mlflow_agent = MLflowToolsAgent(llm)
